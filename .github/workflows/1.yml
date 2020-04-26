@@ -1,2 +1,0 @@
-- name: Setup Python
-  uses: actions/setup-python@v1.2.0
