@@ -27,4 +27,4 @@ jobs:
         # Version range or exact version of a Python version to use, using SemVer's version range syntax.
         python-version: # optional, default is 3.x
         # The target architecture (x86, x64) of the Python interpreter.
-       architecture: # optional, default is x64
+        architecture: # optional, default is x64
