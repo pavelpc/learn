@@ -14,8 +14,7 @@ hidden = '-' * part_len
 # поле догадок
 guess = '-' * len_
 # меняем поле
-guess = list(guess)
-# попытки
+guess = list(guess)# попытки
 tries = 8
 # это я уже видел
 was = []
