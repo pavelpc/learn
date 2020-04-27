@@ -1,45 +1,49 @@
-# This is a basic workflow to help you get started with Actions
-
-name: 1
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+name: Run tests on any Push event
+# Запуск при любом push евенте в любой ветке, за исключением релизных тэгов.
+# Они будт тестироваться перед сборкой
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    tags:
+      - '!refs/tags/*'
+    branches:
+      - '*'
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  run_tests:
+    runs-on: [ubuntu-latest]
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    - name: Setup Python
-      uses: actions/setup-python@v1.2.0
-      with:
-        # Version range or exact version of a Python version to use, using SemVer's version range syntax.
-        python-version: # optional, default is 3.x
-        # The target architecture (x86, x64) of the Python interpreter.
-        architecture: # optional, default is x64
-    #- name: Install dependencies
-    #  run: |
-    #    python -m pip install --upgrade pip
-    #    pip install -r requirements.txt
-    - name: Lint with flake8
-      run: |
-        pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pytest
+      # Чекаутим код
+      - uses: actions/checkout@master
+      # Устанавливаем python нужной версии
+      - uses: actions/setup-python@v1.2.0
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+  -name: Python Code Quality and Lint
+   uses: ricardochaves/python-lint@v1.1.0
+   with:
+    # A list of all paths to test
+    python-root-list: # optional, default is .
+    # Use Pylint
+    use-pylint: # optional, default is true
+    # Use pycodestyle
+    use-pycodestyle: # optional, default is true
+    # Use Flake8
+    use-flake8: # optional, default is true
+    # Use Black
+    use-black: # optional, default is true
+    # Use mypy
+    use-mypy: # optional, default is true
+    # Use isort
+    use-isort: # optional, default is true
+    # Extra options: pylint $(extra-pylint-options) $(python-root-list)
+    extra-pylint-options: # optional, default is 
+    # Extra options: pycodestyle $(extra-pycodestyle-options) $(python-root-list)
+    extra-pycodestyle-options: # optional, default is 
+    # Extra options: flake8 $(extra-flake8-options) $(python-root-list)
+    extra-flake8-options: # optional, default is 
+    # Extra options: black --check $(extra-black-options) $(python-root-list)
+    extra-black-options: # optional, default is 
+    # Extra options: mypy $(extra-mypy-options) $(python-root-list)
+    extra-mypy-options: # optional, default is 
+    # Extra options: isort -rc $(extra-isort-options) $(python-root-list) -c --diff 
+    extra-isort-options: # optional, default is 
