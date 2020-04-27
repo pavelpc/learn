@@ -19,7 +19,7 @@ jobs:
           python-version: '3.8'
           architecture: 'x64'
   -name: Python Code Quality and Lint
-   uses: ricardochaves/python-lint@v1.1.0
+  -uses: ricardochaves/python-lint@v1.1.0
    with:
     # A list of all paths to test
     python-root-list: # optional, default is .
